@@ -8,19 +8,9 @@
 ##SBATCH --exclusive
 
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=32
 
 source /sdf/data/rubin/user/jchiang/ops_rehearsal_3/setup.sh
-cd /sdf/data/rubin/user/jchiang/ops_rehearsal_3/calibs
+cd /sdf/data/rubin/user/jchiang/ops_rehearsal_3/refcats
 
-#echo "*** BIAS JOBS ***"
-#python run_imsim_jobs.py BIAS
-#
-#echo "*** DARK JOBS ***"
-#python run_imsim_jobs.py DARK
-#
-#echo "*** FLAT JOBS ***"
-#python run_imsim_jobs.py FLAT
-#
-echo "*** PTC JOBS ***"
-python run_imsim_jobs.py PTC
+python make_refcat_input.py
