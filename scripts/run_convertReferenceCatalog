@@ -1,0 +1,1 @@
+convertReferenceCatalog . uw_stars_config.py "*.csv"
