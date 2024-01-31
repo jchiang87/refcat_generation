@@ -1,6 +1,7 @@
 import numpy as np
 import lsst.afw.math as afw_math
 
+
 __all__ = ["RADecErrors", "MagErrors"]
 
 
@@ -52,8 +53,10 @@ class RADecErrors:
             afw_math.stringToInterpStyle("CUBIC_SPLINE"))
 
     def __call__(self, rmag_values):
-        ra_errors = np.array(self.ra_spline.interpolate(rmag_values))
-        dec_errors = np.array(self.dec_spline.interpolate(rmag_values))
+        ra_errors = np.degrees(
+            np.array(self.ra_spline.interpolate(rmag_values)))
+        dec_errors = np.degrees(
+            np.array(self.dec_spline.interpolate(rmag_values)))
         return ra_errors, dec_errors
 
 
