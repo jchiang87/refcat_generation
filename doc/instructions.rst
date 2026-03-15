@@ -1,6 +1,6 @@
 Steps for creating reference catalogs from skyCatalogs input
 ------------------------------------------------------------
-Reference: `Refcat instructions at pipelines.lsst.io <https://pipelines.lsst.io/modules/lsst.meas.algorithms/creating-a-reference-catalog.html#how-to-generate-an-lsst-reference-catalog>`_
+Reference: `Reference catalog instructions at pipelines.lsst.io <https://pipelines.lsst.io/modules/lsst.meas.algorithms/creating-a-reference-catalog.html#how-to-generate-an-lsst-reference-catalog>`_
 
 1. Set up the skyCatalogs directory.
 
@@ -12,7 +12,13 @@ Reference: `Refcat instructions at pipelines.lsst.io <https://pipelines.lsst.io/
    * compute position and magnitude errors and write the csv files.
 
 4. Edit ``config/<my_catalog>_config.py`` to set the dataset name, number
-   of processes to uese, etc..
+   of processes to uese, etc..  By convention, ``<my_catalog>`` is set to
+   a descriptive name for the catalog combined with the date it was
+   generated, e.g., ``euclid_stars_20260315``, and in the config file itself:
+
+   .. code-block:: python
+
+      config.dataset_config.ref_dataset_name = "euclid_stars_20260315"
 
 5. Run the Rubin converstion script:
 
@@ -20,11 +26,9 @@ Reference: `Refcat instructions at pipelines.lsst.io <https://pipelines.lsst.io/
 
       $ convertReferenceCatalog . <my_catalog>_config.py "*.csv"
 
-   This will generate FITS files in the ``.ref_dataset_name``
+   This will generate FITS files in a ``<my_catalog>``
    subfolder and a ``filename_to_htm.ecsv`` file for ingesting into
-   the butler repo.  By convention, ``<my_catalog>`` is set to a
-   descriptive name for the catalog combined with the date it was
-   generated, e.g., ```euclid_stars_20260315``
+   the butler repo.
 
 6. Register these refcats as a dataset type and ingest into the butler
    repository.  This must be done from the directory where the refcats
@@ -33,8 +37,8 @@ Reference: `Refcat instructions at pipelines.lsst.io <https://pipelines.lsst.io/
 
    .. code-block:: bash
 
-   $ cd <directory containing filename_to_htm.escv>
-   $ butler register-dataset-type ${REPO} <my_catalog> SimpleCatalog htm7
-   $ butler ingest-files -t direct ${REPO} <my_catalog>  refcats/<my_catalog> filename_to_htm.ecsv
-   $ butler collection-chain ./repo --mode extend refcats refcats/<my_catalog>
+      $ cd <directory containing filename_to_htm.escv>
+      $ butler register-dataset-type ${REPO} <my_catalog> SimpleCatalog htm7
+      $ butler ingest-files -t direct ${REPO} <my_catalog>  refcats/<my_catalog> filename_to_htm.ecsv
+      $ butler collection-chain ./repo --mode extend refcats refcats/<my_catalog>
 
