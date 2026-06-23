@@ -40,5 +40,5 @@ Reference: `Reference catalog instructions at pipelines.lsst.io <https://pipelin
       $ cd <directory containing filename_to_htm.escv>
       $ butler register-dataset-type ${REPO} <my_catalog> SimpleCatalog htm7
       $ butler ingest-files -t direct ${REPO} <my_catalog>  refcats/<my_catalog> filename_to_htm.ecsv
-      $ butler collection-chain ./repo --mode extend refcats refcats/<my_catalog>
+      $ butler collection-chain ${REPO} --mode extend refcats refcats/<my_catalog>
 
